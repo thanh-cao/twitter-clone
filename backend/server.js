@@ -5,9 +5,14 @@ if (process.env.NODE_ENV !== "production") {
 // import packages
 const express = require('express');
 const ejsMate = require('ejs-mate');
-var createError = require('http-errors');
+const createError = require('http-errors');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const session = require('express-session');
 const path = require('path');
+
 const db = require('./models');
+const User = db.User;
 
 // import routers
 const userRouters = require('./routers/user.routers');
@@ -22,6 +27,43 @@ app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+const sessionConfig = {
+    secret: process.env.SECRET_KEY,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        expires: Date.now() + 1000 * 60 * 60 * 24 * 7, // expires in 7 days
+        maxAge: 1000 * 60 * 60 * 24 * 7
+    }
+};
+
+app.use(session(sessionConfig));
+
+// set up passport
+app.use(passport.initialize());
+app.use(passport.session());
+passport.use(new LocalStrategy(
+    function (username, password, done) {
+        User.findOne({ where: { username: username } })
+            .then(function (err, user) {
+                if (err) { return done(err); }
+                if (!user) { return done(null, false); }
+                if (!user.verifyPassword(password)) { return done(null, false); }
+                return done(null, user);
+            });
+    }
+));
+passport.serializeUser(function (user, done) {
+    done(null, user.id);
+});
+passport.deserializeUser(function (id, done) {
+    User.findByPk(id, function (err, user) {
+        done(err, user);
+    });
+});
+
 
 app.use('/users', userRouters);
 
