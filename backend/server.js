@@ -4,8 +4,10 @@ if (process.env.NODE_ENV !== "production") {
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const db = require('./models');
 
 const app = express();
+db.initDB();
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
