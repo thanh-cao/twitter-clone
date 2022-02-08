@@ -7,7 +7,8 @@ const express = require('express');
 const ejsMate = require('ejs-mate');
 const createError = require('http-errors');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
+const LocalStrategy = require('passport-local').Strategy;
+const crypto = require('crypto');
 const session = require('express-session');
 const path = require('path');
 
@@ -47,11 +48,16 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
     function verify(username, password, done) {
         User.findOne({ where: { username: username } })
-            .then(function (err, user) {
-                if (err) { return done(err); }
-                if (!user) { return done(null, false); }
-                if (!user.verifyPassword(password)) { return done(null, false); }
-                return done(null, user);
+            .then(user => {
+                if (!user) return done(null, false, { message: 'Incorrect username or password.' });
+
+                crypto.pbkdf2(password, user.salt, 1000, 32, 'sha512', function (err, hashedPassword) {
+                    if (err) return done(err);
+                    if (!crypto.timingSafeEqual(user.password, hashedPassword)) {
+                        return done(null, false, { message: 'Incorrect username or password.' });
+                    };
+                    return done(null, user);
+                });
             });
     }
 ));
@@ -59,9 +65,7 @@ passport.serializeUser(function (user, done) {
     done(null, user.id);
 });
 passport.deserializeUser(function (id, done) {
-    User.findByPk(id, function (err, user) {
-        done(err, user);
-    });
+    User.findByPk(id).then(user => done(null, user));
 });
 
 

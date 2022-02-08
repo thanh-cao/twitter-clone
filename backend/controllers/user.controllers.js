@@ -25,3 +25,16 @@ module.exports.register = catchAsync(async (req, res) => {
         });
     });
 });
+
+module.exports.renderLogin = (req, res) => {
+    res.render('login');
+};
+
+module.exports.login = (req, res) => {
+    res.send('User logged in successfully');
+};
+
+module.exports.logout = (req, res) => {
+    req.logout();
+    res.send('User logged out successfully');
+};
