@@ -7,7 +7,6 @@ module.exports.getAllTweets = catchAsync(async (req, res) => {
 });
 
 module.exports.renderCreateTweet = (req, res) => {
-    if (!req.user) return res.redirect('/users/login');
     res.render('create-tweet');
 };
 
