@@ -17,7 +17,7 @@ async function initDB() {
     catch (error) {
         console.error('Unable to connect to the database:', error);
     }
-    // await sequelize.sync();
+    // await sequelize.sync({ force: true });
 };
 
 const User = sequelize.define('User', {
@@ -32,6 +32,7 @@ const User = sequelize.define('User', {
     },
     username: {
         type: DataTypes.STRING,
+        unique: true,
         allowNull: false
     },
     password: {
@@ -60,7 +61,7 @@ const Tweet = sequelize.define('Tweet', {
     }
 });
 
-User.hasMany(Tweet);
+User.hasMany(Tweet, { foreignKey: 'userId' });
 Tweet.belongsTo(User, { targetKey: "id", foreignKey: "userId" });
 
 module.exports = { initDB, sequelize, User, Tweet };
