@@ -35,7 +35,11 @@ const User = sequelize.define('User', {
         allowNull: false
     },
     password: {
-        type: DataTypes.STRING,
+        type: DataTypes.BLOB,
+        allowNull: false
+    },
+    salt: {
+        type: DataTypes.BLOB,
         allowNull: false
     }
 });

@@ -7,7 +7,7 @@ const express = require('express');
 const ejsMate = require('ejs-mate');
 const createError = require('http-errors');
 const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
+const LocalStrategy = require('passport-local');
 const session = require('express-session');
 const path = require('path');
 
@@ -45,7 +45,7 @@ app.use(session(sessionConfig));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(
-    function (username, password, done) {
+    function verify(username, password, done) {
         User.findOne({ where: { username: username } })
             .then(function (err, user) {
                 if (err) { return done(err); }
