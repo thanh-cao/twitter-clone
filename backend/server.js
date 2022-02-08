@@ -17,6 +17,7 @@ const User = db.User;
 
 // import routers
 const userRouters = require('./routers/user.routers');
+const tweetRouters = require('./routers/tweet.routers');
 
 const app = express();
 db.initDB(); // testing database connection
@@ -70,6 +71,7 @@ passport.deserializeUser(function (id, done) {
 
 
 app.use('/users', userRouters);
+app.use('/tweets', tweetRouters);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
