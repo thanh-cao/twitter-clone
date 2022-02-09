@@ -24,9 +24,8 @@ export default class LogIn extends Component {
 
   async handleSubmit(event) {
     event.preventDefault();
-    console.log('submit');
     const { username, password } = this.state;
-    console.log(username, password);
+    try {
     const response = await fetch('http://localhost:3005/users/login', {
       method: 'POST',
       headers: {
@@ -37,8 +36,18 @@ export default class LogIn extends Component {
         password
       })
     });
-    const data = await response.json();
-    this.props.history.push('/tweets');
+
+    const user = await response.json();
+
+    if (response.status === 200) {
+      localStorage.setItem('userAthenticated', JSON.stringify(user));
+      return this.props.history.push('/tweets');
+    }
+
+    throw new Error(user.error);
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   render() {
