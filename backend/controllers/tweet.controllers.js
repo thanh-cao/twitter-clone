@@ -2,8 +2,13 @@ const { User, Tweet } = require('../models');
 const catchAsync = require('../utils/catchAsync');
 
 module.exports.getAllTweets = catchAsync(async (req, res) => {
-    const tweets = await Tweet.findAll();
-    res.status(200).json({ tweets });
+    const tweets = await Tweet.findAll({
+        include: [{
+            model: User,
+            attributes: ['name', 'username']
+        }]
+    });
+    res.status(200).json(tweets);
 });
 
 module.exports.renderCreateTweet = (req, res) => {
