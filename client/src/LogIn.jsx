@@ -28,6 +28,7 @@ export default class LogIn extends Component {
     try {
     const response = await fetch('http://localhost:3005/users/login', {
       method: 'POST',
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json'
       },

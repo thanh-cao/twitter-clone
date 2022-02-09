@@ -35,9 +35,8 @@ module.exports.renderLogin = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-    console.log('something');
+    
     passport.authenticate('local', (err, user, info) => {
-        console.log('something inside');
         if (err) {
             return res.status(500).json({ error: 'Something went wrong' });
         }
@@ -49,7 +48,7 @@ module.exports.login = (req, res) => {
             if (err) {
                 return res.status(500).json({ error: 'Something went wrong' });
             };
-
+            req.session.user = user;
             res.status(200).json(user);
         });
 
