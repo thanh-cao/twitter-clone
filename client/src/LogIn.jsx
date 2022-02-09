@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Register from './Register';
 
 export default class LogIn extends Component {
   constructor(props) {
@@ -39,7 +38,7 @@ export default class LogIn extends Component {
       })
     });
     const data = await response.json();
-    console.log(data);
+    this.props.history.push('/tweets');
   }
 
   render() {

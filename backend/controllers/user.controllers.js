@@ -34,7 +34,7 @@ module.exports.renderLogin = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-    res.send('User logged in successfully');
+    res.send({message: 'User logged in successfully'});
 };
 
 module.exports.logout = (req, res) => {
