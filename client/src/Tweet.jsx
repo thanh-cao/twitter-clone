@@ -10,11 +10,11 @@ export default class Tweet extends Component {
         return (
             <div className="Tweet">
                 <div className="Tweet-header">
-                    <Link to={`/users/${this.props.username}`}>
+                    <Link to={`/tweets/${this.props.username}`}>
                         <img src={this.props.avatar} alt={this.props.username + " avatar"} width="50"/>
                     </Link>
                     <div className="Tweet-header-content">
-                        <Link to={`/users/${this.props.username}`}>
+                        <Link to={`/tweets/${this.props.username}`}>
                             <h3>{this.props.name}
                                 <span>@{this.props.username}</span>
                             </h3>

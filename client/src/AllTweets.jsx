@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Tweet from './Tweet';
 import CreateTweet from './CreateTweet';
+const calculateTime = require('./services/calculateTime');
 export default class AllTweets extends Component {
     constructor(props) {
         super(props);
@@ -14,7 +15,6 @@ export default class AllTweets extends Component {
     async addTweet(event) {
         event.preventDefault();
         const message = event.target.message.value;
-        console.log(message);
         const response = await fetch('http://localhost:3005/tweets/create', {
             method: 'POST',
             credentials: 'include',
@@ -29,41 +29,17 @@ export default class AllTweets extends Component {
 
     async populateTweets() {
         const response = await fetch('http://localhost:3005/tweets', {
-            credentials: 'include'   
+            credentials: 'include'
         });
         const tweets = await response.json();
         this.setState({ tweets });
     }
-    
+
     async componentDidMount() {
         await this.populateTweets();
     }
 
     render() {
-        const currentTimestamp = new Date().getTime() / 1000;
-
-        const calculateTime = (createdAt) => {
-            createdAt = Date.parse(createdAt) / 1000;
-            const time = currentTimestamp - createdAt;
-
-            switch (true) {
-                case time < 60:
-                    return `${time} seconds ago`;
-                case time < 3600:
-                    return `${Math.floor(time / 60)} minutes ago`;
-                case (time < 86400):
-                    return `${Math.floor(time / 3600)} hours ago`;
-                case time < 604800:
-                    return `${Math.floor(time / 86400)} days ago`;
-                case time < 2592000:
-                    return `${Math.floor(time / 604800)} weeks ago`;
-                case time < 31536000:
-                    return `${Math.floor(time / 2592000)} months ago`;
-                default:
-                    return `${Math.floor(time / 31536000)} years ago`;
-            }
-        };
-
         return (
             <div>
                 <Link to="/tweets">
