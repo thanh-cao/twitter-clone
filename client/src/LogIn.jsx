@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+const { loginUser } = require('./services/auth');
 
 export default class LogIn extends Component {
   constructor(props) {
@@ -26,26 +27,15 @@ export default class LogIn extends Component {
     event.preventDefault();
     const { username, password } = this.state;
     try {
-    const response = await fetch('http://localhost:3005/users/login', {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        username,
-        password
-      })
-    });
+      const user = await loginUser(username, password);
 
-    const user = await response.json();
+      if (user.error) {
+        throw new Error(user.error);
+      }
 
-    if (response.status === 200) {
       localStorage.setItem('userAthenticated', JSON.stringify(user));
       return this.props.history.push('/tweets');
-    }
 
-    throw new Error(user.error);
     } catch (error) {
       console.log(error);
     }

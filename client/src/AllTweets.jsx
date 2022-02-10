@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import Tweet from './Tweet';
 import CreateTweet from './CreateTweet';
 const calculateTime = require('./services/calculateTime');
+const { getAllTweets, createTweet } = require('./services/tweets');
 export default class AllTweets extends Component {
     constructor(props) {
         super(props);
@@ -15,23 +16,12 @@ export default class AllTweets extends Component {
     async addTweet(event) {
         event.preventDefault();
         const message = event.target.message.value;
-        const response = await fetch('http://localhost:3005/tweets/create', {
-            method: 'POST',
-            credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ message })
-        });
-        await response.json();
+        await createTweet(message);
         await this.populateTweets();
     }
 
     async populateTweets() {
-        const response = await fetch('http://localhost:3005/tweets', {
-            credentials: 'include'
-        });
-        const tweets = await response.json();
+        const tweets = await getAllTweets();
         this.setState({ tweets });
     }
 

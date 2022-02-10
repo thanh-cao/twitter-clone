@@ -7,7 +7,7 @@ router.get('/', isLoggedIn, tweets.getAllTweets);
 
 
 router.route('/create')
-    .get(isLoggedIn, tweets.renderCreateTweet)
+    // .get(isLoggedIn, tweets.renderCreateTweet)
     .post(isLoggedIn, tweets.createTweet);
 
 router.get('/:username', isLoggedIn, tweets.getTweetByUsername);

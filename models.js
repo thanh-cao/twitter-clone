@@ -4,15 +4,17 @@ if (process.env.NODE_ENV !== "production") {
 
 const { Sequelize, DataTypes } = require('sequelize');
 
+const dialectOptions = process.env.NODE_ENV !== "production" ? null : {
+    ssl: {
+        require: true,
+        rejectUnauthorized: false
+    }
+};
+
 const sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
-    dialectOptions: {
-        ssl: {
-            require: true,
-            rejectUnauthorized: false
-        }
-    }
+    dialectOptions: dialectOptions
 });
 
 async function initDB() {

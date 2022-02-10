@@ -6,11 +6,11 @@ const users = require('../controllers/user.controllers');
 router.get('/', users.getAllUsers);
 
 router.route('/register')
-    .get(users.renderRegister)
+    // .get(users.renderRegister)
     .post(users.register);
 
 router.route('/login')
-    .get(users.renderLogin)
+    // .get(users.renderLogin)
     .post(users.login);
 
 router.get('/logout', users.logout);

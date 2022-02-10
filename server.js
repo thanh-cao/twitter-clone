@@ -4,7 +4,7 @@ if (process.env.NODE_ENV !== "production") {
 
 // import packages
 const express = require('express');
-const ejsMate = require('ejs-mate');
+// const ejsMate = require('ejs-mate');
 const createError = require('http-errors');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -24,9 +24,9 @@ const app = express();
 db.initDB(); // testing database connection
 
 // set up middleware and routers
-app.engine('ejs', ejsMate);
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+// app.engine('ejs', ejsMate);
+// app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, "client", "build")))
 
 app.use(express.urlencoded({ extended: true }));
