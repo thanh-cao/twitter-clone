@@ -1,11 +1,11 @@
 {
-  "name": "twitter-clone-backend",
+  "name": "tweatter-clone",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --only=dev && npm install && npm run build"
   },
   "author": "",
   "license": "ISC",
@@ -22,5 +22,8 @@
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
     "sequelize": "^6.15.1"
+  },
+  "engines": {
+    "node": "v14.17.6"
   }
 }

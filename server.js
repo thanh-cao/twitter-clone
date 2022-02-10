@@ -27,6 +27,7 @@ db.initDB(); // testing database connection
 app.engine('ejs', ejsMate);
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
+app.use(express.static(path.join(__dirname, "client", "build")))
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -95,6 +96,9 @@ app.use(function (err, req, res, next) {
     res.render('error');
 });
 
+app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Listening on port ${PORT}`));
