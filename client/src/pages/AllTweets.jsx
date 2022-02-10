@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import Tweet from './Tweet';
-import CreateTweet from './CreateTweet';
-const calculateTime = require('./services/calculateTime');
-const { getAllTweets, createTweet } = require('./services/tweets');
+import Tweet from '../components/Tweet';
+import CreateTweet from '../components/CreateTweet';
+const calculateTime = require('../services/calculateTime');
+const { getAllTweets, createTweet } = require('../services/tweets');
 export default class AllTweets extends Component {
     constructor(props) {
         super(props);

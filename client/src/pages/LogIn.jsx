@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-const { loginUser } = require('./services/auth');
+const { loginUser } = require('../services/auth');
 
 export default class LogIn extends Component {
   constructor(props) {

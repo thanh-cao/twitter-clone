@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import Tweet from './Tweet';
+import Tweet from '../components/Tweet';
 import { Link } from 'react-router-dom';
-const calculateTime = require('./services/calculateTime');
+const calculateTime = require('../services/calculateTime');
 
 export default class UserTweets extends Component {
     constructor(props) {

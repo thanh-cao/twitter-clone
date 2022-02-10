@@ -17,7 +17,7 @@ module.exports.register = catchAsync(async (req, res) => {
     const salt = crypto.randomBytes(16);
 
     const existingUser = await User.findOne({ where: { username } });
-    if (existingUser) return res.status(400).json({ message: 'User already exists' });
+    if (existingUser) return res.status(400).json({ error: 'User already exists' });
 
     crypto.pbkdf2(password, salt, 1000, 32, 'sha512', async (err, hashedPassword) => {
         if (err) return next(err);
@@ -25,7 +25,7 @@ module.exports.register = catchAsync(async (req, res) => {
         const user = await User.create({ name, username, password: hashedPassword, salt });
         req.login(user, (err) => {
             if (err) return next(err);
-            res.send('User registered successfully');
+            res.status(200).json(user);
         });
     });
 });
