@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-const { loginUser } = require('../services/auth');
+const { loginUser, authenticateUser } = require('../services/auth');
 
 export default class LogIn extends Component {
   constructor(props) {
@@ -36,6 +36,17 @@ export default class LogIn extends Component {
       localStorage.setItem('userAthenticated', JSON.stringify(user));
       return this.props.history.push('/tweets');
 
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  async componentDidMount() {
+    try {
+      const user = await authenticateUser();
+      if (!user.error) {
+        this.props.history.push('/tweets');
+      }
     } catch (error) {
       console.log(error);
     }

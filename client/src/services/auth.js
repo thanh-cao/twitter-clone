@@ -35,3 +35,12 @@ module.exports.logout = async () => {
         }
     }).then(res => res.json());
 }
+
+module.exports.authenticateUser = async () => {
+    return fetch('/users/authenticate', {
+        credentials: 'include',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(res => res.json());
+}

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-const { register } = require('../services/auth');
+const { register, authenticateUser } = require('../services/auth');
 
 export default class Register extends Component {
     constructor(props) {
@@ -28,12 +28,23 @@ export default class Register extends Component {
     async handleSubmit(event) {
         event.preventDefault();
         try {
-        const {name, username, password } = this.state;
-        const res = await register(name, username, password);
-        if (res.error) {
-            throw new Error(res.error);
+            const { name, username, password } = this.state;
+            const res = await register(name, username, password);
+            if (res.error) {
+                throw new Error(res.error);
+            }
+            this.props.history.push('/tweets');
+        } catch (error) {
+            console.log(error);
         }
-        this.props.history.push('/tweets');
+    }
+
+    async componentDidMount() {
+        try {
+            const user = await authenticateUser();
+            if (!user.error) {
+                this.props.history.push('/tweets');
+            }
         } catch (error) {
             console.log(error);
         }

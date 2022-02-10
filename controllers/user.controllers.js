@@ -35,7 +35,7 @@ module.exports.renderLogin = (req, res) => {
 };
 
 module.exports.login = (req, res) => {
-    
+
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             return res.status(500).json({ error: 'Something went wrong' });
@@ -59,3 +59,11 @@ module.exports.logout = (req, res) => {
     req.logout();
     res.send('User logged out successfully');
 };
+
+module.exports.authenticateUser = (req, res) => {
+    if (req.isAuthenticated()) {
+        res.status(200).json(req.session.user);
+    } else {
+        res.status(401).json({ error: 'User not authenticated' });
+    }
+}
