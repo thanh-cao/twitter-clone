@@ -1,10 +1,10 @@
-module.exports.getAllTweets = async () => {
+export const getAllTweets = async () => {
     return fetch('/tweets', {
         credentials: 'include'
     }).then(res => res.json());
 }
 
-module.exports.createTweet = async (message) => {
+export const createTweet = async (message) => {
     return fetch('/tweets/create', {
         method: 'POST',
         credentials: 'include',

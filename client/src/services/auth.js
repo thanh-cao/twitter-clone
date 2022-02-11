@@ -1,4 +1,4 @@
-module.exports.loginUser = async (username, password) => {
+export const loginUser = async (username, password) => {
     return fetch('/users/login', {
         method: 'POST',
         credentials: 'include',
@@ -12,7 +12,7 @@ module.exports.loginUser = async (username, password) => {
     }).then(res => res.json());
 }
 
-module.exports.register = async (name, username, password) => {
+export const register = async (name, username, password) => {
     return fetch('/users/register', {
         method: 'POST',
         credentials: 'include',
@@ -27,7 +27,7 @@ module.exports.register = async (name, username, password) => {
     }).then(res => res.json());
 }
 
-module.exports.logout = async () => {
+export const logout = async () => {
     return fetch('/users/logout', {
         credentials: 'include',
         headers: {
@@ -36,7 +36,7 @@ module.exports.logout = async () => {
     }).then(res => res.json());
 }
 
-module.exports.authenticateUser = async () => {
+export const authenticateUser = async () => {
     return fetch('/users/authenticate', {
         credentials: 'include',
         headers: {
