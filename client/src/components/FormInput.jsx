@@ -38,16 +38,6 @@ const DropdownSelect = ({
     required,
     error
 }) => {
-    const renderedOptions = () => {
-        <option value="" />
-        {
-            options.map(option => (
-                <option key={option.value} value={option.value}>
-                    {option.text}
-                </option>
-            ))
-        }
-    };
 
     return (
         <div className="form-group">
@@ -60,7 +50,14 @@ const DropdownSelect = ({
                     onChange={onChange}
                     required={required}
                 >
-                    {options && renderedOptions()}
+                    {options &&
+                        options.map(option => (
+                            <option key={option} value={option}>
+                                {option}
+                            </option>
+                        ))
+                    }
+
                 </select>
             </label>
             {error && <div className="alert alert-danger">{error}</div>}
@@ -94,7 +91,6 @@ export default class FormInput extends Component {
         return (
             <div>
                 {this.props.type ? renderInput : renderDropdown}
-                {/* {!this.props.type && renderDropdown} */}
             </div>
         );
     }
