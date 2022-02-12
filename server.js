@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== "production") {
 
 // import packages
 const express = require('express');
-// const ejsMate = require('ejs-mate');
 const createError = require('http-errors');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -24,9 +23,6 @@ const app = express();
 db.initDB(); // testing database connection
 
 // set up middleware and routers
-// app.engine('ejs', ejsMate);
-// app.set('view engine', 'ejs');
-// app.set('views', path.join(__dirname, 'views'));
 app.use(express.static(path.join(__dirname, "client", "build")))
 
 app.use(express.urlencoded({ extended: true }));
@@ -86,14 +82,10 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
-    res.status(err.status || 500);
-    res.render('error');
+app.use((err, req, res, next) => {
+    const { statusCode = 500 } = err;
+    if (!err.message) err.message = 'Oh No, Something Went Wrong!';
+    res.status(statusCode).json(err);
 });
 
 app.get("*", (req, res) => {

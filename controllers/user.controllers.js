@@ -8,10 +8,6 @@ module.exports.getAllUsers = catchAsync(async (req, res) => {
     res.status(200).json({ users });
 });
 
-module.exports.renderRegister = (req, res) => {
-    res.render('register');
-};
-
 module.exports.register = catchAsync(async (req, res) => {
     const { name, username, password } = req.body;
     const salt = crypto.randomBytes(16);
@@ -30,12 +26,7 @@ module.exports.register = catchAsync(async (req, res) => {
     });
 });
 
-module.exports.renderLogin = (req, res) => {
-    res.render('login');
-};
-
 module.exports.login = (req, res) => {
-
     passport.authenticate('local', (err, user, info) => {
         if (err) {
             return res.status(500).json({ error: 'Something went wrong' });

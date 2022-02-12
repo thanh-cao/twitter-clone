@@ -3,7 +3,7 @@ const router = express.Router();
 const tweets = require('../controllers/tweet.controllers');
 const { isLoggedIn } = require('../middlewares');
 
-router.get('/', isLoggedIn, tweets.getAllTweets);
+router.get('/', tweets.getAllTweets);
 
 
 router.route('/create')

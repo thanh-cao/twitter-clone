@@ -22,14 +22,13 @@ export class SecondaryButton extends Component {
     render() {
         return (
             <div className="rounded-full shadow">
-                <a
-                    href={this.props.href}
+                <Link
+                    to={this.props.href}
                     className="btn-secondary"
                 >
                     {this.props.text}
-                </a>
+                </Link>
             </div>
         )
     }
 }
-{/* <div className="mt-3 sm:mt-0 sm:ml-3"></div> */}
